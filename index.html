@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Astra AI — JEE Main & Advanced Master Cracking App</title>
+<style>
+:root{
+  --bg:#0a0e17;
+  --panel:#0f1726;
+  --panel2:#111b2f;
+  --cyan:#00f2fe;
+  --purple:#9d4edd;
+  --text:#edf7ff;
+  --muted:#8fa6bb;
+  --green:#35f3a3;
+  --red:#ff5d7a;
+  --yellow:#ffd166;
+  --border:rgba(0,242,254,.18);
+  --shadow:0 0 28px rgba(0,242,254,.12);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  background:
+    radial-gradient(circle at 10% 10%, rgba(0,242,254,.08), transparent 28%),
+    radial-gradient(circle at 90% 10%, rgba(157,78,221,.08), transparent 25%),
+    var(--bg);
+  color:var(--text);
+  font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  min-height:100vh;
+}
+button,input{font:inherit}
+button{cursor:pointer}
+.app-shell{min-height:100vh;display:flex;flex-direction:column}
+.status-ribbon{
+  position:sticky;top:0;z-index:50;
+  display:grid;grid-template-columns:auto 1fr auto;gap:18px;align-items:center;
+  padding:12px 18px;background:rgba(8,13,24,.88);
+  border-bottom:1px solid var(--border);backdrop-filter:blur(18px);
+}
+.brand{display:flex;align-items:center;gap:10px;font-weight:900;letter-spacing:.04em}
+.logo{
+  width:36px;height:36px;border-radius:12px;display:grid;place-items:center;
+  background:linear-gradient(135deg,var(--cyan),var(--purple));
+  color:#061018;box-shadow:0 0 26px rgba(0,242,254,.35)
+}
+.streak{color:#fff;font-weight:800;white-space:nowrap}
+.progress-wrap{min-width:120px}
+.progress-meta{display:flex;justify-content:space-between;color:var(--muted);font-size:.78rem;margin-bottom:5px}
+.progress-track{height:8px;background:#172338;border-radius:100px;overflow:hidden}
+.progress-bar{height:100%;width:27%;background:linear-gradient(90deg,var(--cyan),var(--purple));box-shadow:0 0 12px var(--cyan);transition:.35s}
+.mode-wrap{display:flex;align-items:center;gap:8px;color:var(--muted);font-size:.8rem}
+.switch{position:relative;width:62px;height:32px;display:inline-block}
+.switch input{display:none}
+.slider{
+  position:absolute;inset:0;border-radius:999px;background:#1c2940;border:1px solid var(--border);transition:.3s
+}
+.slider:before{
+  content:"";position:absolute;width:24px;height:24px;left:4px;top:3px;border-radius:50%;
+  background:var(--cyan);box-shadow:0 0 16px rgba(0,242,254,.6);transition:.3s
+}
+.switch input:checked + .slider{background:rgba(157,78,221,.18)}
+.switch input:checked + .slider:before{transform:translateX(29px);background:var(--purple)}
+.mode-badge{padding:6px 10px;border-radius:999px;border:1px solid var(--border);font-weight:800;color:var(--cyan)}
+.workspace{
+  display:grid;grid-template-columns:minmax(275px,330px) 1fr;gap:16px;
+  padding:16px;min-height:calc(100vh - 70px)
+}
+.sidebar,.main-panel{
+  border:1px solid var(--border);
+  background:linear-gradient(180deg,rgba(15,23,38,.96),rgba(10,14,23,.96));
+  border-radius:20px;box-shadow:var(--shadow)
+}
+.sidebar{overflow:hidden;display:flex;flex-direction:column;max-height:calc(100vh - 100px);position:sticky;top:86px}
+.sidebar-head{padding:18px;border-bottom:1px solid var(--border)}
+.sidebar-head h2{margin:0 0 6px;font-size:1rem}
+.sidebar-head p{margin:0;color:var(--muted);font-size:.78rem}
+.search-box{margin-top:12px;width:100%;background:#0a1220;color:white;border:1px solid var(--border);padding:10px 12px;border-radius:10px;outline:none}
+.search-box:focus{box-shadow:0 0 0 3px rgba(0,242,254,.08)}
+.navigator{overflow:auto;padding:12px}
+details{border:1px solid rgba(255,255,255,.05);border-radius:12px;margin-bottom:8px;background:rgba(255,255,255,.015)}
+summary{list-style:none;padding:11px 12px;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:space-between}
+summary::-webkit-details-marker{display:none}
+summary:after{content:"+";color:var(--cyan);transition:.2s}
+details[open] > summary:after{transform:rotate(45deg)}
+.group-body{padding:0 8px 8px}
+.chapter-btn{
+  width:100%;text-align:left;border:0;background:transparent;color:var(--muted);
+  padding:9px 10px;border-radius:9px;margin:2px 0;transition:.2s;font-size:.88rem
+}
+.chapter-btn:hover,.chapter-btn.active{background:rgba(0,242,254,.08);color:white;transform:translateX(3px)}
+.chapter-btn.active{box-shadow:inset 3px 0 0 var(--cyan)}
+.main-panel{padding:20px;overflow:hidden}
+.hero{
+  display:grid;grid-template-columns:1.05fr .95fr;gap:18px;align-items:stretch
+}
+.card{
+  border:1px solid var(--border);background:linear-gradient(180deg,rgba(17,27,47,.82),rgba(8,14,25,.88));
+  border-radius:18px;padding:18px;box-shadow:0 14px 45px rgba(0,0,0,.22)
+}
+.eyebrow{font-size:.72rem;color:var(--cyan);text-transform:uppercase;letter-spacing:.18em;font-weight:900}
+h1{font-size:clamp(1.65rem,4vw,2.55rem);line-height:1.08;margin:8px 0 10px}
+.gradient-text{background:linear-gradient(90deg,var(--cyan),#b4f7ff,var(--purple));-webkit-background-clip:text;color:transparent}
+.hero p{color:var(--muted);line-height:1.7}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:16px}
+.stat{padding:10px;border:1px solid rgba(255,255,255,.06);border-radius:12px;text-align:center;background:rgba(255,255,255,.02)}
+.stat strong{display:block;color:var(--cyan);font-size:1.15rem}
+.tutor-card{text-align:center;position:relative;overflow:hidden}
+.tutor-card:before{
+  content:"";position:absolute;inset:auto -20% -50% -20%;height:180px;
+  background:radial-gradient(circle,rgba(157,78,221,.2),transparent 60%);pointer-events:none
+}
+.visualizer-wrap{height:180px;display:grid;place-items:center;position:relative}
+.visualizer{
+  width:112px;height:112px;border-radius:50%;position:relative;
+  background:radial-gradient(circle at 35% 30%,#bafcff 0 8%,var(--cyan) 9% 30%,#112f47 31% 58%,#0a0e17 59%);
+  box-shadow:0 0 0 1px rgba(0,242,254,.5),0 0 50px rgba(0,242,254,.3),0 0 90px rgba(157,78,221,.12)
+}
+.visualizer:before,.visualizer:after{
+  content:"";position:absolute;inset:-18px;border-radius:50%;border:1px solid rgba(0,242,254,.35);opacity:.5
+}
+.visualizer:after{inset:-38px;border-color:rgba(157,78,221,.32)}
+.visualizer.active{animation:pulseCore .8s ease-in-out infinite alternate}
+.visualizer.active:before{animation:ringPulse 1s ease-out infinite}
+.visualizer.active:after{animation:ringPulse 1s .25s ease-out infinite}
+@keyframes pulseCore{to{transform:scale(1.12);filter:brightness(1.25)}}
+@keyframes ringPulse{0%{transform:scale(.88);opacity:.8}100%{transform:scale(1.18);opacity:0}}
+.controls{display:flex;flex-wrap:wrap;justify-content:center;gap:8px}
+.btn{
+  border:1px solid var(--border);background:#0d1727;color:white;padding:10px 13px;border-radius:11px;font-weight:800;
+  transition:.2s
+}
+.btn:hover{transform:translateY(-2px);box-shadow:0 0 20px rgba(0,242,254,.16)}
+.btn.primary{background:linear-gradient(135deg,rgba(0,242,254,.2),rgba(157,78,221,.22));border-color:rgba(0,242,254,.45)}
+.btn.on{border-color:var(--green);color:var(--green)}
+.subtitle-box{
+  margin-top:14px;min-height:70px;text-align:left;padding:12px 14px;border-left:3px solid var(--cyan);
+  background:rgba(0,242,254,.05);border-radius:10px;color:#dffaff;font-size:.9rem;line-height:1.5
+}
+.learning-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:16px}
+.section-title{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:12px}
+.section-title h3{margin:0;font-size:1rem}
+.pill{font-size:.7rem;padding:5px 8px;border-radius:999px;background:rgba(157,78,221,.12);color:#d9b7ff;border:1px solid rgba(157,78,221,.28)}
+.formula-list{display:grid;gap:8px}
+.formula{
+  border:1px solid rgba(255,255,255,.07);background:rgba(0,0,0,.14);padding:11px 12px;border-radius:10px
+}
+.formula b{color:var(--cyan);font-size:1.02rem}
+.question{font-weight:800;line-height:1.55;margin:8px 0 14px}
+.options{display:grid;gap:8px}
+.option{
+  width:100%;text-align:left;background:#0c1524;color:#dbe9f5;border:1px solid rgba(255,255,255,.07);
+  padding:11px;border-radius:10px;transition:.2s
+}
+.option:hover{border-color:rgba(0,242,254,.45);transform:translateX(2px)}
+.option.correct{border-color:var(--green);background:rgba(53,243,163,.08);color:#baffdd}
+.option.wrong{border-color:var(--red);background:rgba(255,93,122,.08);color:#ffd4dc}
+.solution{
+  max-height:0;overflow:hidden;opacity:0;transition:max-height .45s ease,opacity .3s ease,margin .3s ease;
+  border-left:3px solid var(--purple);background:rgba(157,78,221,.06);border-radius:10px;padding:0 12px;margin-top:0
+}
+.solution.show{max-height:500px;opacity:1;padding:12px;margin-top:12px}
+.solution ol{margin:8px 0 0;padding-left:20px;color:#d9e6f1}
+.solution li{margin:7px 0}
+.toast{
+  position:fixed;right:18px;bottom:18px;background:#0c1725;border:1px solid var(--border);color:white;padding:11px 14px;
+  border-radius:12px;box-shadow:var(--shadow);opacity:0;transform:translateY(15px);pointer-events:none;transition:.3s;z-index:70
+}
+.toast.show{opacity:1;transform:none}
+.footer-note{color:var(--muted);text-align:center;font-size:.72rem;margin-top:14px}
+@media(max-width:980px){
+  .workspace{grid-template-columns:1fr}
+  .sidebar{position:relative;top:0;max-height:420px}
+  .hero,.learning-grid{grid-template-columns:1fr}
+}
+@media(max-width:680px){
+  .status-ribbon{grid-template-columns:1fr;gap:8px;padding:10px}
+  .brand{justify-content:space-between}
+  .workspace{padding:10px;gap:10px}
+  .main-panel{padding:12px}
+  .stats{grid-template-columns:1fr 1fr 1fr}
+  .mode-wrap{justify-content:space-between}
+}
+</style>
+</head>
+<body>
+<div class="app-shell">
+  <header class="status-ribbon">
+    <div class="brand"><span class="logo">A</span><span>ASTRA AI</span><span class="streak">🔥 15 Days</span></div>
+    <div class="progress-wrap">
+      <div class="progress-meta"><span>Overall Mastery</span><span id="progressText">27%</span></div>
+      <div class="progress-track"><div class="progress-bar" id="progressBar"></div></div>
+    </div>
+    <div class="mode-wrap">
+      <span>Main</span>
+      <label class="switch" aria-label="Switch JEE difficulty">
+        <input id="modeToggle" type="checkbox">
+        <span class="slider"></span>
+      </label>
+      <span>Advanced</span>
+      <span class="mode-badge" id="modeBadge">JEE Main</span>
+    </div>
+  </header>
+
+  <main class="workspace">
+    <aside class="sidebar">
+      <div class="sidebar-head">
+        <h2>🧭 Syllabus Navigator</h2>
+        <p>Class 11 + 12 • Physics • Chemistry • Mathematics</p>
+        <input id="searchInput" class="search-box" placeholder="Search chapter..." />
+      </div>
+      <nav id="navigator" class="navigator" aria-label="JEE syllabus"></nav>
+    </aside>
+
+    <section class="main-panel">
+      <div class="hero">
+        <article class="card">
+          <div class="eyebrow">JEE Master Workspace</div>
+          <h1 id="chapterTitle">Motion in 2D & 3D <span class="gradient-text">(Projectile & Relative Motion)</span></h1>
+          <p id="chapterIntro">Master vectors, projectile decomposition, relative velocity and motion in a plane with exam-focused rules and instant practice.</p>
+          <div class="stats">
+            <div class="stat"><strong id="conceptCount">4</strong><span>Key rules</span></div>
+            <div class="stat"><strong>1</strong><span>Live MCQ</span></div>
+            <div class="stat"><strong id="difficultyStat">Main</strong><span>Difficulty</span></div>
+          </div>
+        </article>
+
+        <article class="card tutor-card">
+          <div class="eyebrow">Live Interactive AI Audio Tutor</div>
+          <div class="visualizer-wrap"><div id="visualizer" class="visualizer" aria-label="voice visualizer"></div></div>
+          <div class="controls">
+            <button id="micBtn" class="btn">🎙 Mic Off</button>
+            <button id="lectureBtn" class="btn primary">▶ Start Daily Audio Lecture</button>
+            <button id="summaryBtn" class="btn">🔊 Speak Summary</button>
+          </div>
+          <div id="subtitleBox" class="subtitle-box">Astra AI is ready. Select any chapter to begin a high-yield spoken concept briefing.</div>
+        </article>
+      </div>
+
+      <div class="learning-grid">
+        <article class="card">
+          <div class="section-title"><h3>⚡ Key Concept Card</h3><span class="pill" id="subjectPill">PHYSICS</span></div>
+          <div id="formulaList" class="formula-list"></div>
+        </article>
+
+        <article class="card">
+          <div class="section-title"><h3>🎯 JEE Practice Engine</h3><span class="pill" id="difficultyPill">JEE MAIN</span></div>
+          <div id="questionBox"></div>
+        </article>
+      </div>
+
+      <div class="footer-note">Voice output uses your browser's native Web Speech API. Speech-recognition availability varies by browser.</div>
+    </section>
+  </main>
+</div>
+
+<div id="toast" class="toast"></div>
+
+<script>
+const syllabus = {
+  Physics: {
+    "Class 11": [
+      "Units & Measurements",
+      "Vectors & Basic Math tools",
+      "Motion in 1D (Rectilinear Motion)",
+      "Motion in 2D & 3D (Projectile & Relative Motion)",
+      "Laws of Motion (NLM & Friction)",
+      "Work, Energy & Power",
+      "Centre of Mass & Collisions",
+      "Rotational Mechanics (Rigid Body Dynamics)",
+      "Gravitation",
+      "Elasticity & Viscosity",
+      "Fluid Mechanics",
+      "Thermal Properties of Matter & Calorimetry",
+      "Kinetic Theory of Gases (KTG)",
+      "Thermodynamics",
+      "Simple Harmonic Motion (SHM)",
+      "Waves & Acoustics"
+    ],
+    "Class 12": [
+      "Electrostatics (Charges, Fields & Gauss Law)",
+      "Electric Potential & Capacitance",
+      "Current Electricity",
+      "Moving Charges & Magnetism",
+      "Magnetism & Matter",
+      "Electromagnetic Induction (EMI)",
+      "Alternating Current (AC)",
+      "Electromagnetic Waves",
+      "Ray Optics & Optical Instruments",
+      "Wave Optics (Interference & Diffraction)",
+      "Dual Nature of Radiation & Matter",
+      "Atoms & Nuclei",
+      "Electronic Devices & Semiconductors",
+      "Experimental Skills & Error Analysis"
+    ]
+  },
+  Chemistry: {
+    "Class 11": [
+      "Some Basic Concepts of Chemistry (Mole Concept)",
+      "Structure of Atom",
+      "Classification of Elements & Periodicity",
+      "Chemical Bonding & Molecular Structure",
+      "States of Matter",
+      "Chemical Thermodynamics",
+      "Chemical Equilibrium",
+      "Ionic Equilibrium",
+      "Redox Reactions",
+      "Hydrogen & s-Block Elements",
+      "p-Block Elements (Groups 13 & 14)",
+      "Organic Chemistry: Some Basic Principles & Techniques (IUPAC, Isomerism, GOC)",
+      "Hydrocarbons (Alkanes, Alkenes, Alkynes, Aromatic)",
+      "Environmental Chemistry"
+    ],
+    "Class 12": [
+      "Solid State",
+      "Solutions & Colligative Properties",
+      "Electrochemistry",
+      "Chemical Kinetics",
+      "Surface Chemistry",
+      "Isolation of Metals (Metallurgy)",
+      "p-Block Elements (Groups 15 to 18)",
+      "d- and f-Block Elements",
+      "Coordination Compounds",
+      "Haloalkanes & Haloarenes",
+      "Alcohols, Phenols & Ethers",
+      "Aldehydes, Ketones & Carboxylic Acids",
+      "Amines & Nitrogen Compounds",
+      "Biomolecules",
+      "Polymers",
+      "Chemistry in Everyday Life",
+      "Principles Related to Practical Chemistry"
+    ]
+  },
+  Mathematics: {
+    "Class 11": [
+      "Sets, Relations & Functions",
+      "Trigonometric Functions",
+      "Principle of Mathematical Induction",
+      "Complex Numbers & Quadratic Equations",
+      "Linear Inequalities",
+      "Permutations & Combinations",
+      "Binomial Theorem",
+      "Sequences & Series (AP, GP, HP, AGP)",
+      "Straight Lines",
+      "Conic Sections (Circle, Parabola, Ellipse, Hyperbola)",
+      "Three-Dimensional Geometry (Introductory)",
+      "Limits & Derivatives",
+      "Mathematical Reasoning",
+      "Statistics",
+      "Probability (Basics)"
+    ],
+    "Class 12": [
+      "Matrices & Determinants",
+      "Inverse Trigonometric Functions",
+      "Continuity & Differentiability",
+      "Applications of Derivatives (Tangents, Maxima-Minima, Rolle's/LMV Theorem)",
+      "Indefinite Integration",
+      "Definite Integrals & Properties",
+      "Area Under Curves",
+      "Differential Equations",
+      "Vector Algebra",
+      "Three-Dimensional Geometry (Lines & Planes)",
+      "Probability (Bayes' Theorem & Distributions)",
+      "Linear Programming"
+    ]
+  }
+};
+
+const templates = {
+  Physics: {
+    concepts: [
+      ["Core relation", "Use the governing equation, resolve vectors carefully, and keep SI units consistent."],
+      ["Exam trigger", "Draw a free-body or geometry sketch before substituting numbers."],
+      ["Dimensional check", "Every final expression must have correct physical dimensions."],
+      ["Advanced edge", "Test limiting cases and sign conventions before locking the answer."]
+    ],
+    mainQ: q => ({
+      q:`A high-yield ${q} question: if a quantity doubles while all independent factors stay unchanged, what should you check first?`,
+      options:["The governing formula and proportionality","Only the numerical units","The answer key pattern","Nothing; always double the final answer"],
+      correct:0,
+      solution:["Write the governing relation.","Identify which terms truly depend on the changed quantity.","Apply the proportionality only after fixing all other variables.","Check units and limiting behavior."]
+    }),
+    advQ: q => ({
+      q:`Advanced ${q}: two apparently different methods give different signs for the same physical quantity. What is the most reliable first diagnosis?`,
+      options:["Sign convention / coordinate choice","Round-off error only","Assume both are correct","Delete vector notation"],
+      correct:0,
+      solution:["Define a coordinate system explicitly.","Rewrite vector quantities in components.","Trace each sign to its direction convention.","Confirm both methods with a limiting or symmetry check."]
+    })
+  },
+  Chemistry: {
+    concepts: [
+      ["Core idea", "Separate stoichiometry, equilibrium, structure and energetics before solving."],
+      ["Mole discipline", "Convert all given amounts to a common chemically meaningful basis."],
+      ["Reaction logic", "Balance atoms, charge and electrons wherever applicable."],
+      ["Advanced edge", "Check dominant species, assumptions and competing pathways."]
+    ],
+    mainQ: q => ({
+      q:`For a typical JEE Main problem from ${q}, what is the safest first move?`,
+      options:["Identify the governing chemical principle","Memorize the last option","Ignore units and conditions","Assume ideal behavior always"],
+      correct:0,
+      solution:["Classify the question: physical, inorganic or organic logic.","Write the governing law/reaction.","Convert data into consistent units/moles.","Apply the relation and verify chemical plausibility."]
+    }),
+    advQ: q => ({
+      q:`In an Advanced-level ${q} problem, two competing effects act simultaneously. What is the best strategy?`,
+      options:["Compare their physical/chemical dominance under the stated conditions","Choose the more familiar effect","Average both blindly","Ignore temperature and medium"],
+      correct:0,
+      solution:["List both effects.","State the condition controlling each effect.","Compare magnitudes or qualitative dominance.","Use the dominant effect to justify the final result."]
+    })
+  },
+  Mathematics: {
+    concepts: [
+      ["Core structure", "Translate the statement into equations, constraints and domain conditions."],
+      ["Algebra control", "Factor, substitute or transform before brute-force expansion."],
+      ["Geometry view", "Use symmetry, graphs and coordinate interpretation whenever available."],
+      ["Advanced edge", "Check domain, extraneous roots and equality conditions."]
+    ],
+    mainQ: q => ({
+      q:`In a JEE Main ${q} problem, which step most often prevents avoidable mistakes?`,
+      options:["Check the domain/constraints before solving","Expand everything immediately","Ignore special cases","Estimate the answer only"],
+      correct:0,
+      solution:["Extract the domain and constraints.","Choose the shortest valid transformation.","Solve symbolically.","Substitute back and reject invalid roots."]
+    }),
+    advQ: q => ({
+      q:`Advanced ${q}: after obtaining multiple candidate solutions, what is essential before selecting the final set?`,
+      options:["Verify every candidate against original constraints","Keep all algebraic roots","Pick the smallest value","Use calculator rounding"],
+      correct:0,
+      solution:["List all candidates.","Return to the original statement.","Check domain, denominator, radicals or geometric restrictions.","Keep only candidates satisfying every condition."]
+    })
+  }
+};
+
+const chapterSpecific = {
+  "Motion in 2D & 3D (Projectile & Relative Motion)": {
+    intro:"Master vector decomposition, projectile motion and relative velocity with exam-ready shortcuts.",
+    concepts:[
+      ["Projectile x-motion","x = (u cosθ)t — horizontal acceleration is zero."],
+      ["Projectile y-motion","y = (u sinθ)t − ½gt²."],
+      ["Time of flight","T = 2u sinθ / g for same-level launch and landing."],
+      ["Range","R = u² sin2θ / g; maximum at θ = 45°."]
+    ],
+    mainQ:{
+      q:"A projectile is launched with speed 20 m/s at 30° above horizontal. Take g = 10 m/s². What is the time of flight?",
+      options:["1 s","2 s","√3 s","4 s"],correct:1,
+      solution:["Use T = 2u sinθ / g.","u = 20 m/s and sin30° = 1/2.","T = 2 × 20 × 1/2 ÷ 10 = 2 s.","Therefore, option B is correct."]
+    },
+    advQ:{
+      q:"Two projectiles are fired with the same speed at angles θ and (90°−θ). Which quantity is necessarily equal for both on level ground?",
+      options:["Maximum height","Time of flight","Horizontal range","Vertical component of velocity"],correct:2,
+      solution:["Range R = u² sin2θ / g.","For angle (90°−θ), sin[2(90°−θ)] = sin(180°−2θ).","Since sin(180°−2θ)=sin2θ, both ranges are equal.","Time of flight and maximum height are generally different."]
+    }
+  },
+  "Units & Measurements": {
+    intro:"Build accuracy with dimensions, significant figures, least count and error propagation.",
+    concepts:[
+      ["Dimensional formula","[Q] = MᵃLᵇTᶜ…"],
+      ["Percentage error","For z = xᵃyᵇ, Δz/z ≈ |a|Δx/x + |b|Δy/y."],
+      ["Vernier least count","LC = 1 MSD − 1 VSD."],
+      ["Screw gauge least count","LC = pitch / number of circular scale divisions."]
+    ]
+  },
+  "Current Electricity": {
+    intro:"Master current, drift, resistance, networks, Kirchhoff laws and electrical power.",
+    concepts:[
+      ["Ohm's law","V = IR"],
+      ["Resistance","R = ρL/A"],
+      ["Power","P = VI = I²R = V²/R"],
+      ["Series / parallel","Series: R = ΣRᵢ; Parallel: 1/R = Σ(1/Rᵢ)."]
+    ]
+  },
+  "Some Basic Concepts of Chemistry (Mole Concept)": {
+    intro:"Convert mass, moles, particles and gases cleanly before solving stoichiometry.",
+    concepts:[
+      ["Moles","n = given mass / molar mass"],
+      ["Particles","N = nNₐ"],
+      ["Molarity","M = moles of solute / litre of solution"],
+      ["Stoichiometry","Use coefficients as mole ratios after balancing the equation."]
+    ]
+  },
+  "Matrices & Determinants": {
+    intro:"Use structure, row-column operations and determinant properties to solve quickly.",
+    concepts:[
+      ["2×2 determinant","|A| = ad − bc"],
+      ["Inverse","A⁻¹ = adj(A)/|A|, when |A| ≠ 0"],
+      ["Product","(AB)ᵢⱼ = Σ aᵢₖbₖⱼ"],
+      ["Key rule","det(AB) = det(A)det(B)"]
+    ]
+  }
+};
+
+let state = {
+  mode:"Main",
+  subject:"Physics",
+  chapter:"Motion in 2D & 3D (Projectile & Relative Motion)",
+  completed:new Set(),
+  mic:false
+};
+
+const nav = document.getElementById("navigator");
+const titleEl = document.getElementById("chapterTitle");
+const introEl = document.getElementById("chapterIntro");
+const formulasEl = document.getElementById("formulaList");
+const questionBox = document.getElementById("questionBox");
+const visualizer = document.getElementById("visualizer");
+const subtitleBox = document.getElementById("subtitleBox");
+const modeToggle = document.getElementById("modeToggle");
+const modeBadge = document.getElementById("modeBadge");
+const difficultyPill = document.getElementById("difficultyPill");
+const difficultyStat = document.getElementById("difficultyStat");
+const subjectPill = document.getElementById("subjectPill");
+const micBtn = document.getElementById("micBtn");
+const toast = document.getElementById("toast");
+
+function totalChapters(){
+  return Object.values(syllabus).reduce((sum,subject)=>sum+Object.values(subject).reduce((a,b)=>a+b.length,0),0);
+}
+
+function showToast(msg){
+  toast.textContent = msg;
+  toast.classList.add("show");
+  clearTimeout(showToast.t);
+  showToast.t = setTimeout(()=>toast.classList.remove("show"),1800);
+}
+
+function renderNav(filter=""){
+  nav.innerHTML="";
+  const query = filter.trim().toLowerCase();
+  Object.entries(syllabus).forEach(([subject,classes])=>{
+    const subjectDetails=document.createElement("details");
+    subjectDetails.open = subject===state.subject || !!query;
+    const s=document.createElement("summary");
+    s.innerHTML=`<span>${subject==="Physics"?"⚛️":subject==="Chemistry"?"🧪":"📐"} ${subject}</span>`;
+    subjectDetails.appendChild(s);
+    const subjectBody=document.createElement("div");
+    subjectBody.className="group-body";
+    Object.entries(classes).forEach(([cls,chapters])=>{
+      const matching = chapters.filter(ch=>ch.toLowerCase().includes(query));
+      if(query && !matching.length) return;
+      const classDetails=document.createElement("details");
+      classDetails.open = subject===state.subject || !!query;
+      const cs=document.createElement("summary");
+      cs.textContent=cls;
+      classDetails.appendChild(cs);
+      const body=document.createElement("div");
+      body.className="group-body";
+      matching.forEach(ch=>{
+        const b=document.createElement("button");
+        b.className="chapter-btn"+(ch===state.chapter?" active":"");
+        b.textContent=ch;
+        b.onclick=()=>{
+          state.subject=subject; state.chapter=ch; state.completed.add(ch);
+          renderNav(document.getElementById("searchInput").value);
+          updateWorkspace();
+          speakChapter(false);
+          updateProgress();
+        };
+        body.appendChild(b);
+      });
+      classDetails.appendChild(body);
+      subjectBody.appendChild(classDetails);
+    });
+    subjectDetails.appendChild(subjectBody);
+    nav.appendChild(subjectDetails);
+  });
+}
+
+function getData(){
+  const base=templates[state.subject];
+  const custom=chapterSpecific[state.chapter]||{};
+  return {
+    intro: custom.intro || `Astra AI focus module for ${state.chapter}. Learn the governing ideas, common traps and exam-solving sequence.`,
+    concepts: custom.concepts || base.concepts,
+    question: state.mode==="Advanced"
+      ? (custom.advQ || base.advQ(state.chapter))
+      : (custom.mainQ || base.mainQ(state.chapter))
+  };
+}
+
+function updateWorkspace(){
+  const data=getData();
+  titleEl.innerHTML = `${state.chapter.replace(/\s*\((.*?)\)\s*$/,"")} <span class="gradient-text">${state.chapter.match(/\((.*?)\)$/)?.[0]||""}</span>`;
+  introEl.textContent=data.intro;
+  subjectPill.textContent=state.subject.toUpperCase();
+  difficultyPill.textContent=`JEE ${state.mode.toUpperCase()}`;
+  difficultyStat.textContent=state.mode;
+  document.getElementById("conceptCount").textContent=data.concepts.length;
+
+  formulasEl.innerHTML = data.concepts.map(([label,text])=>`
+    <div class="formula"><b>${label}</b><div>${text}</div></div>
+  `).join("");
+
+  const q=data.question;
+  questionBox.innerHTML=`
+    <div class="question">${q.q}</div>
+    <div class="options">
+      ${q.options.map((op,i)=>`<button class="option" data-index="${i}"><b>${String.fromCharCode(65+i)}.</b> ${op}</button>`).join("")}
+    </div>
+    <div class="solution" id="solutionCard">
+      <b>Step-by-step solution</b>
+      <ol>${q.solution.map(s=>`<li>${s}</li>`).join("")}</ol>
+    </div>
+  `;
+  questionBox.querySelectorAll(".option").forEach(btn=>{
+    btn.onclick=()=>{
+      const idx=Number(btn.dataset.index);
+      questionBox.querySelectorAll(".option").forEach((b,i)=>{
+        b.disabled=true;
+        if(i===q.correct)b.classList.add("correct");
+      });
+      if(idx!==q.correct)btn.classList.add("wrong");
+      document.getElementById("solutionCard").classList.add("show");
+      state.completed.add(state.chapter);
+      updateProgress();
+      showToast(idx===q.correct?"Correct — strong work!":"Review the steps and retry mentally.");
+    };
+  });
+
+  subtitleBox.textContent=`Selected: ${state.chapter}. ${data.intro}`;
+}
+
+function updateProgress(){
+  const base=27;
+  const bonus=Math.min(68,Math.round((state.completed.size/totalChapters())*68));
+  const val=Math.min(95,base+bonus);
+  document.getElementById("progressBar").style.width=val+"%";
+  document.getElementById("progressText").textContent=val+"%";
+}
+
+function speak(text){
+  if(!("speechSynthesis" in window)){
+    subtitleBox.textContent="Speech synthesis is not supported in this browser.";
+    return;
+  }
+  window.speechSynthesis.cancel();
+  const u=new SpeechSynthesisUtterance(text);
+  u.rate=0.98; u.pitch=1.02;
+  u.onstart=()=>visualizer.classList.add("active");
+  u.onend=()=>visualizer.classList.remove("active");
+  u.onerror=()=>visualizer.classList.remove("active");
+  window.speechSynthesis.speak(u);
+}
+
+function speakChapter(daily=false){
+  const data=getData();
+  const conceptText=data.concepts.map(([a,b])=>`${a}: ${b}`).join(" ");
+  const text = daily
+    ? `Welcome to your Astra AI daily JEE ${state.mode} lecture. Today's focus is ${state.chapter}. ${data.intro} High yield rules: ${conceptText} After the lecture, attempt the practice question without looking at the solution first.`
+    : `${state.chapter}. ${data.intro} ${conceptText}`;
+  subtitleBox.textContent=text;
+  speak(text);
+}
+
+document.getElementById("lectureBtn").onclick=()=>speakChapter(true);
+document.getElementById("summaryBtn").onclick=()=>speakChapter(false);
+
+micBtn.onclick=()=>{
+  state.mic=!state.mic;
+  micBtn.classList.toggle("on",state.mic);
+  micBtn.textContent=state.mic?"🎙 Mic On":"🎙 Mic Off";
+  showToast(state.mic ? "Mic simulation enabled." : "Mic simulation disabled.");
+};
+
+modeToggle.onchange=()=>{
+  state.mode=modeToggle.checked?"Advanced":"Main";
+  modeBadge.textContent=`JEE ${state.mode}`;
+  modeBadge.style.color=state.mode==="Advanced"?"#d7b4ff":"var(--cyan)";
+  updateWorkspace();
+  showToast(`Switched to JEE ${state.mode} mode.`);
+};
+
+document.getElementById("searchInput").addEventListener("input",e=>renderNav(e.target.value));
+
+renderNav();
+updateWorkspace();
+updateProgress();
+</script>
+</body>
+</html>
